@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Release Batches Faster, Without Chasing Paperwork — DataDives</title>
+<meta name="description" content="DataDives connects your batch-release evidence from the systems you already use, shows exactly what's missing, and puts a named owner on every gap.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://datadives.in/">
+<meta property="og:title" content="Release Batches Faster, Without Chasing Paperwork — DataDives">
+<meta property="og:description" content="DataDives connects your batch-release evidence from the systems you already use, shows exactly what's missing, and puts a named owner on every gap.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://connect.facebook.net">
+<style>
+  :root{
+    --navy:#0B1B33;
+    --navy-2:#122747;
+    --navy-line:#24385C;
+    --ink:#181614;
+    --ink-soft:#615B52;
+    --line:#E7E1D2;
+    --paper:#F8F5EE;
+    --card:#FFFFFF;
+    --gold:#B8862E;
+    --gold-light:#D9AE55;
+    --gold-soft:#F6ECD3;
+    --green:#2E6B4F;
+    --green-soft:#E3F0E8;
+    --red:#AC3327;
+    --red-soft:#F8E6E3;
+    --serif:'Playfair Display', Georgia, serif;
+    --sans:'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    --mono:'Space Mono', ui-monospace, monospace;
+    --shadow:0 2px 6px rgba(11,27,51,.06), 0 16px 40px -16px rgba(11,27,51,.18);
+    --shadow-lg:0 30px 80px -24px rgba(11,27,51,.4);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; font-family:var(--sans); color:var(--ink); background:var(--paper); -webkit-font-smoothing:antialiased}
+  img,svg{display:block}
+  a{color:inherit}
+  .wrap{max-width:1140px; margin:0 auto; padding:0 24px}
+  button{font-family:inherit; cursor:pointer}
+  .reveal{transform:translateY(14px); transition:transform .5s ease}
+  .reveal.in{transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{transform:none; transition:none}}
+
+  /* ===== Topbar ===== */
+  .topbar{position:sticky; top:0; z-index:40; background:rgba(248,245,238,.9); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+  .topbar-inner{display:flex; align-items:center; justify-content:space-between; height:72px}
+  .brand{display:flex; align-items:center; gap:10px; font-family:var(--serif); font-weight:700; font-size:19px; text-decoration:none; color:var(--navy)}
+  .brand-mark{width:16px; height:16px; border:2.5px solid var(--gold); transform:rotate(45deg); flex:none}
+  .topbar-cta{background:var(--navy); color:#fff; border:none; padding:12px 22px; border-radius:6px; font-weight:600; font-size:13.5px; transition:transform .15s, background .15s; border:1px solid var(--navy)}
+  .topbar-cta:hover{background:var(--gold); border-color:var(--gold); transform:translateY(-1px)}
+
+  /* ===== Hero ===== */
+  .hero-section{padding:60px 0 0}
+  .hero-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:56px; align-items:center}
+  .eyebrow{display:inline-flex; align-items:center; gap:9px; background:var(--navy); color:var(--gold-light); font-family:var(--mono); font-weight:700; font-size:11.5px; padding:8px 16px; border-radius:100px; margin-bottom:26px; text-transform:uppercase; letter-spacing:.05em}
+  .headline{font-family:var(--serif); font-weight:700; font-size:clamp(30px,4.4vw,48px); line-height:1.14; letter-spacing:-.01em; margin:0 0 22px; color:var(--navy)}
+  .headline .g{color:var(--gold); font-style:italic}
+  .sub{font-size:17px; line-height:1.65; color:var(--ink-soft); max-width:500px; margin:0 0 32px}
+  .hero-ctas{display:flex; flex-direction:column; align-items:flex-start; gap:12px; margin-bottom:8px}
+  .btn{border:none; border-radius:8px; font-weight:700; font-size:15.5px; padding:17px 28px; transition:transform .15s ease, box-shadow .15s ease, background .15s ease; display:inline-flex; align-items:center; gap:9px}
+  .btn-primary{background:var(--navy); color:#fff; box-shadow:0 12px 28px -10px rgba(11,27,51,.5)}
+  .btn-primary:hover{background:var(--navy-2); transform:translateY(-2px)}
+  .btn-primary .arrow{color:var(--gold-light)}
+  .btn-ghost{background:transparent; color:var(--navy); border:1.5px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--navy)}
+  .hero-microcopy{font-size:13px; color:var(--ink-soft)}
+
+  .trust-row{display:flex; gap:0; margin-top:44px; border-top:1px solid var(--line); padding-top:0}
+  .trust-item{flex:1; padding:20px 20px 0 0; font-family:var(--mono); font-size:11px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.03em; border-right:1px solid var(--line)}
+  .trust-item:last-child{border-right:none}
+  .trust-item b{display:block; color:var(--navy); font-size:14px; font-weight:700; margin-bottom:4px; font-family:var(--sans); text-transform:none; letter-spacing:0}
+
+  /* ===== Hero interactive panel ===== */
+  .panel{background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow-lg); overflow:hidden; position:relative}
+  .panel::before{content:""; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--gold),var(--navy))}
+  .panel-head{padding:18px 20px; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; background:var(--navy)}
+  .panel-title{font-family:var(--mono); font-size:11px; color:#9FB3D4; letter-spacing:.02em}
+  .panel-title b{color:#fff; font-weight:700}
+  .panel-badge{font-family:var(--mono); font-size:11px; padding:5px 11px; border-radius:100px; background:var(--green-soft); color:var(--green); font-weight:700; transition:background .25s,color .25s}
+  .panel-hint{font-size:11.5px; color:var(--ink-soft); text-align:center; padding:11px; background:#FCFAF4; border-top:1px solid var(--line)}
+  .prow{display:flex; align-items:center; gap:12px; padding:16px 20px; border-top:1px solid var(--line); cursor:pointer; transition:background .15s; user-select:none}
+  .prow:hover{background:#FCFAF4}
+  .pdot{width:9px; height:9px; border-radius:50%; flex:none; transition:background .25s}
+  .pinfo{flex:1; min-width:0}
+  .pname{font-size:14px; font-weight:600; color:var(--ink)}
+  .pmeta{font-size:12px; color:var(--ink-soft); margin-top:2px; transition:color .25s}
+  .pstatus{font-family:var(--mono); font-size:11px; font-weight:700; padding:5px 10px; border-radius:5px; flex:none; white-space:nowrap; transition:background .25s,color .25s}
+  .pstatus.ok{background:var(--green-soft); color:var(--green)}
+  .pstatus.warn{background:var(--gold-soft); color:var(--gold)}
+  .pstatus.late{background:var(--red-soft); color:var(--red)}
+  .pdot.ok{background:var(--green)}
+  .pdot.warn{background:var(--gold)}
+  .pdot.late{background:var(--red)}
+
+  /* ===== Sections ===== */
+  section{padding:84px 0}
+  .section-eyebrow{font-family:var(--mono); font-size:11.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--gold); margin-bottom:16px; display:flex; align-items:center; gap:10px}
+  .section-eyebrow::before{content:""; width:22px; height:2px; background:var(--gold)}
+  .section-title{font-family:var(--serif); font-size:clamp(26px,3.2vw,38px); font-weight:700; letter-spacing:-.01em; margin:0 0 16px; line-height:1.2; max-width:640px; color:var(--navy)}
+  .section-lede{font-size:16.5px; color:var(--ink-soft); line-height:1.6; max-width:560px}
+
+  /* Pain list */
+  .pain-layout{display:grid; grid-template-columns:.8fr 1.2fr; gap:60px; align-items:start}
+  .pain-close{margin-top:26px; font-size:17px; font-weight:700; color:var(--navy); font-family:var(--serif)}
+  .pain-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column}
+  .pain-list li{display:flex; gap:18px; padding:22px 0; border-top:1px solid var(--line); font-size:16.5px; line-height:1.55; color:var(--ink)}
+  .pain-list li:last-child{border-bottom:1px solid var(--line)}
+  .pain-num{font-family:var(--mono); font-size:13px; color:var(--gold); flex:none; padding-top:3px; font-weight:700}
+
+  /* What we do */
+  .steps3{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:44px}
+  .step-card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:30px 26px; transition:transform .2s ease, box-shadow .2s ease; position:relative}
+  .step-card:hover{transform:translateY(-4px); box-shadow:var(--shadow)}
+  .step-num{font-family:var(--serif); font-size:15px; font-weight:700; color:#fff; background:var(--navy); width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:18px}
+  .step-title{font-weight:800; font-size:17px; margin-bottom:9px; color:var(--navy)}
+  .step-desc{font-size:14.5px; color:var(--ink-soft); line-height:1.6}
+
+  /* Positioning */
+  .position-band{background:var(--navy); color:#fff; border-radius:18px; padding:52px; display:grid; grid-template-columns:1fr 1fr; gap:52px}
+  .position-band h3{font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--gold-light); margin:0 0 18px}
+  .mandate-line{font-family:var(--serif); font-size:27px; font-weight:700; margin-bottom:14px; color:#fff}
+  .position-band p{color:#B9C6DC; font-size:14.5px; line-height:1.65; max-width:400px}
+  .compare-row{display:flex; justify-content:space-between; gap:16px; padding:13px 0; border-bottom:1px solid var(--navy-line); font-size:14.5px}
+  .compare-row:last-child{border-bottom:none}
+  .compare-no{color:#7C8FAE; flex:1}
+  .compare-yes{color:#fff; font-weight:700; flex:1; text-align:right}
+
+  /* FAQ */
+  .faq{max-width:720px}
+  .faq-item{border-bottom:1px solid var(--line)}
+  .faq-item:first-child{border-top:1px solid var(--line)}
+  .faq-q{padding:22px 2px; display:flex; justify-content:space-between; align-items:center; font-weight:700; font-size:16px; cursor:pointer; gap:20px; color:var(--navy)}
+  .chev{transition:transform .25s; color:var(--gold); flex:none; font-family:var(--mono); font-size:18px}
+  .faq-item.open .chev{transform:rotate(45deg)}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .3s ease}
+  .faq-item.open .faq-a{max-height:220px}
+  .faq-a-inner{padding:0 2px 22px; color:var(--ink-soft); font-size:15px; line-height:1.65; max-width:560px}
+
+  /* Final CTA band */
+  .final-cta{background:linear-gradient(135deg,var(--navy),var(--navy-2)); border-radius:20px; padding:64px 40px; text-align:center; position:relative; overflow:hidden}
+  .final-cta::after{content:""; position:absolute; inset:0; background:radial-gradient(circle 400px at 90% 10%, rgba(217,174,85,.15), transparent 60%)}
+  .final-cta h2{font-family:var(--serif); color:#fff; font-size:clamp(24px,3.4vw,36px); font-weight:700; margin:0 0 14px; position:relative}
+  .final-cta p{color:#B9C6DC; font-size:16px; max-width:480px; margin:0 auto 30px; position:relative}
+  .final-cta .btn-primary{background:var(--gold); color:var(--navy); box-shadow:0 14px 30px -10px rgba(216,174,85,.5); position:relative}
+  .final-cta .btn-primary:hover{background:var(--gold-light)}
+  .final-cta .btn-primary .arrow{color:var(--navy)}
+
+  footer{border-top:1px solid var(--line); padding:32px 0 100px}
+  .foot-row{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; font-size:13px; color:var(--ink-soft)}
+  .foot-links{display:flex; gap:18px}
+  .foot-links a{text-decoration:none; color:var(--ink-soft)}
+  .foot-links a:hover{color:var(--navy)}
+
+  .mobile-cta{position:fixed; left:0; right:0; bottom:0; z-index:50; background:#fff; border-top:1px solid var(--line); padding:12px 16px calc(12px + env(safe-area-inset-bottom)); display:none; box-shadow:0 -8px 24px rgba(11,27,51,.12)}
+  .mobile-cta .btn{width:100%; justify-content:center}
+
+  /* ===== Popup modal ===== */
+  .modal-overlay{position:fixed; inset:0; z-index:100; background:rgba(11,27,51,.55); backdrop-filter:blur(3px); display:none; align-items:flex-start; justify-content:center; padding:24px; overflow-y:auto}
+  .modal-overlay.show{display:flex}
+  .modal-card{background:#fff; border-radius:20px; max-width:600px; width:100%; margin:auto; box-shadow:var(--shadow-lg); position:relative; animation:modalIn .3s ease; margin-top:40px; margin-bottom:40px}
+  @keyframes modalIn{from{opacity:0; transform:translateY(20px) scale(.98)} to{opacity:1; transform:translateY(0) scale(1)}}
+  .modal-close{position:absolute; top:18px; right:18px; width:34px; height:34px; border-radius:50%; background:var(--paper); border:none; display:flex; align-items:center; justify-content:center; color:var(--ink-soft); font-size:18px; z-index:2}
+  .modal-close:hover{background:var(--line); color:var(--ink)}
+  .modal-head{padding:32px 36px 0}
+  .modal-head h2{font-family:var(--serif); font-size:clamp(21px,2.8vw,26px); font-weight:700; margin:0 0 8px; color:var(--navy)}
+  .modal-head p{color:var(--ink-soft); font-size:14px; margin:0}
+  .progress-track{height:4px; background:var(--line); border-radius:100px; overflow:hidden; margin:20px 36px 0}
+  .progress-fill{height:100%; background:var(--gold); border-radius:100px; transition:width .35s ease}
+  .modal-body{padding:28px 36px 36px; min-height:260px}
+  .q-step{display:none; animation:fadein .35s ease}
+  .q-step.active{display:block}
+  @keyframes fadein{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)}}
+  .q-label{font-family:var(--mono); font-size:11px; font-weight:700; color:var(--gold); text-transform:uppercase; letter-spacing:.05em; margin-bottom:12px}
+  .q-title{font-family:var(--serif); font-size:clamp(18px,2.2vw,21px); font-weight:700; margin-bottom:22px; line-height:1.35; color:var(--navy)}
+  .opt-grid{display:flex; flex-direction:column; gap:9px}
+  .opt{display:flex; align-items:center; gap:12px; text-align:left; width:100%; padding:15px 16px; min-height:50px; border-radius:9px; border:1.5px solid var(--line); background:#fff; font-size:15px; font-weight:500; color:var(--ink); transition:border-color .15s, background .15s}
+  .opt:hover{border-color:var(--gold); background:var(--gold-soft)}
+  .opt.selected{border-color:var(--gold); background:var(--gold-soft); font-weight:700}
+  .radio{width:16px; height:16px; border-radius:50%; border:2px solid #D8D0C2; flex:none; position:relative}
+  .opt.selected .radio{border-color:var(--gold)}
+  .opt.selected .radio::after{content:""; position:absolute; inset:3px; border-radius:50%; background:var(--gold)}
+  .field-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  .field{display:flex; flex-direction:column; gap:6px}
+  .field.full{grid-column:1 / -1}
+  .field label{font-size:12.5px; font-weight:600; color:var(--navy)}
+  .field input{padding:13px 14px; border-radius:8px; border:1.5px solid var(--line); font-size:16px; font-family:inherit; color:var(--ink)}
+  .field input:focus{outline:none; border-color:var(--gold)}
+  .field.invalid input{border-color:var(--red)}
+  .field-error{display:none; font-size:12px; color:var(--red)}
+  .field.invalid .field-error{display:block}
+  .consent-line{font-size:12px; color:var(--ink-soft); margin-top:16px; line-height:1.5}
+  .consent-line a{text-decoration:underline}
+  .q-nav{display:flex; justify-content:space-between; align-items:center; margin-top:24px; padding-top:18px; border-top:1px solid var(--line)}
+  .btn-back{background:none; border:none; color:var(--ink-soft); font-weight:600; font-size:14px; padding:10px 4px}
+  .btn-back:hover{color:var(--ink)}
+  .btn-back:disabled{opacity:0; pointer-events:none}
+  .btn-next{background:var(--navy); color:#fff; border:none; padding:13px 22px; border-radius:8px; font-weight:700; font-size:14.5px}
+  .btn-next:hover{background:var(--navy-2)}
+
+  .result-box{text-align:center; padding:10px 0}
+  .result-icon{width:54px; height:54px; border-radius:50%; margin:0 auto 20px; display:flex; align-items:center; justify-content:center}
+  .result-icon.ok{background:var(--green-soft)}
+  .result-icon.ok svg{stroke:var(--green)}
+  .result-icon.no{background:var(--gold-soft)}
+  .result-icon.no svg{stroke:var(--gold)}
+  .result-title{font-family:var(--serif); font-size:22px; font-weight:700; margin-bottom:12px; color:var(--navy)}
+  .result-desc{color:var(--ink-soft); font-size:14.5px; line-height:1.6; max-width:420px; margin:0 auto 24px}
+  .result-cta{background:var(--navy); color:#fff; border:none; padding:15px 28px; border-radius:9px; font-weight:700; font-size:15px; text-decoration:none; display:inline-block}
+
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr; gap:36px}
+    .pain-layout{grid-template-columns:1fr; gap:32px}
+    .steps3{grid-template-columns:1fr}
+    .position-band{grid-template-columns:1fr; gap:32px; padding:36px 24px; border-radius:16px}
+    .field-grid{grid-template-columns:1fr}
+    .mobile-cta{display:block}
+    footer{padding-bottom:110px}
+    section{padding:56px 0}
+    .trust-row{flex-wrap:wrap}
+    .trust-item{flex:1 1 45%; border-right:none; border-bottom:1px solid var(--line); padding:16px 0}
+    .final-cta{padding:44px 24px}
+  }
+
+  @media (max-width:480px){
+    .wrap{padding:0 18px}
+    .hero-section{padding-top:26px}
+    .headline{font-size:28px}
+    .sub{font-size:15.5px}
+    .btn{width:100%; justify-content:center}
+    .hero-ctas{width:100%}
+    .opt{padding:15px}
+    .modal-head{padding:26px 20px 0}
+    .modal-body{padding:22px 20px 28px}
+    .progress-track{margin:18px 20px 0}
+    .q-title{font-size:17px}
+    .position-band{padding:28px 18px}
+    .mandate-line{font-size:21px}
+    .modal-overlay{padding:0}
+    .modal-card{border-radius:16px 16px 0 0; margin:auto 0 0; max-height:92vh; overflow-y:auto}
+  }
+</style>
+</head>
+<body>
+
+<script>
+  window.DD_CONFIG = {
+    market: "india",
+    gdprRequired: false,
+    locations: ["Hyderabad", "Ahmedabad", "Other"],
+    calendarUrl: "https://calendly.com/REPLACE-ME/batch-review",
+    submitEndpoint: "REPLACE-ME-WITH-YOUR-ENDPOINT",
+    metaPixelId: "REPLACE-ME-WITH-INDIA-PIXEL-ID"
+  };
+</script>
+
+<div class="topbar">
+  <div class="wrap topbar-inner">
+    <a href="#top" class="brand"><span class="brand-mark"></span> DataDives</a>
+    <button class="topbar-cta" data-open-modal>Get My Free Review</button>
+  </div>
+</div>
+
+<main id="top">
+
+  <section class="hero-section" style="padding-bottom:0">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div>
+          <div class="eyebrow">FOR QA & PLANT HEADS · HYDERABAD & AHMEDABAD</div>
+          <h1 class="headline">We Help You Release Batches Faster — Without Chasing <span class="g">Paperwork.</span></h1>
+          <p class="sub">DataDives brings your batch evidence together from the systems you already use, shows you exactly what's missing, and puts a name on every gap — so a missing signature never delays your release again.</p>
+          <div class="hero-ctas">
+            <button class="btn btn-primary" data-open-modal>Get My Free Batch-Release Review <span class="arrow">→</span></button>
+            <span class="hero-microcopy">Free 15-minute call · No obligation · Takes 60 seconds to check if you qualify</span>
+          </div>
+          <div class="trust-row">
+            <div class="trust-item"><b>WHO-GMP</b>review standard, run automatically on every batch</div>
+            <div class="trust-item"><b>1 Plant</b>is all it takes to start a pilot</div>
+            <div class="trust-item"><b>Named Owner</b>assigned to your account from day one</div>
+          </div>
+        </div>
+        <div>
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">RELEASE CHECKLIST — <b>BATCH 04521</b></div>
+              <div class="panel-badge" id="panel-badge">2 OF 4 CLEARED</div>
+            </div>
+            <div id="panel-rows">
+              <div class="prow" data-state="ok">
+                <span class="pdot ok"></span>
+                <div class="pinfo"><div class="pname">Certificate of Analysis</div><div class="pmeta">QC Lab · signed 08:12</div></div>
+                <span class="pstatus ok">CLEARED</span>
+              </div>
+              <div class="prow" data-state="late">
+                <span class="pdot late"></span>
+                <div class="pinfo"><div class="pname">Equipment Cleaning Log — Line 3</div><div class="pmeta">Owner: unassigned</div></div>
+                <span class="pstatus late">2 DAYS LATE</span>
+              </div>
+              <div class="prow" data-state="warn">
+                <span class="pdot warn"></span>
+                <div class="pinfo"><div class="pname">Deviation DEV-1182 sign-off</div><div class="pmeta">Owner: S. Kapoor, QA</div></div>
+                <span class="pstatus warn">PENDING</span>
+              </div>
+              <div class="prow" data-state="ok">
+                <span class="pdot ok"></span>
+                <div class="pinfo"><div class="pname">In-process Check, Stage 4</div><div class="pmeta">Production · signed 06:40</div></div>
+                <span class="pstatus ok">CLEARED</span>
+              </div>
+            </div>
+            <div class="panel-hint">This is what your plant could look like — tap a row to try it</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="wrap pain-layout">
+      <div>
+        <div class="section-eyebrow">IF THIS SOUNDS FAMILIAR</div>
+        <h2 class="section-title">Here's what's actually delaying your releases.</h2>
+        <p class="section-lede">It's not the review. It's finding the paperwork for it.</p>
+        <p class="pain-close">This isn't a training problem. It's a visibility problem. And we fix it.</p>
+      </div>
+      <ul class="pain-list">
+        <li><span class="pain-num">01</span> A cleaning log signed on paper, sitting in a binder on Line 3.</li>
+        <li><span class="pain-num">02</span> A deviation still waiting on a signature from someone who's on leave.</li>
+        <li><span class="pain-num">03</span> Three exports from three systems that don't agree on the same batch number.</li>
+        <li><span class="pain-num">04</span> A reviewer checking the same document twice because the first version went missing.</li>
+        <li><span class="pain-num">05</span> Nobody finding out a record is missing until the week of the audit.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="how-it-works" class="reveal" style="background:var(--card); border-top:1px solid var(--line); border-bottom:1px solid var(--line)">
+    <div class="wrap">
+      <div class="section-eyebrow">WHAT WE ACTUALLY DO</div>
+      <h2 class="section-title">Here's exactly what happens when you work with us.</h2>
+      <div class="steps3">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-title">We connect your systems</div>
+          <div class="step-desc">Quality, lab, and production — up to three systems you already use. We don't replace anything you run today.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-title">We run your checks automatically</div>
+          <div class="step-desc">The same checks your QA team already applies, run against every single batch, without anyone lifting a finger.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-title">We name an owner for every gap</div>
+          <div class="step-desc">Every missing record gets a name and a deadline. No more guessing who's supposed to fix what.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="wrap">
+      <div class="position-band">
+        <div>
+          <h3>THE MANDATE</h3>
+          <div class="mandate-line">GMP requires this. Every release. No exceptions.</div>
+          <p>This isn't new work we're inventing — it's the review you're already required to do, currently scattered across systems that don't talk to each other. We just make it fast.</p>
+        </div>
+        <div>
+          <h3>WHAT WE'RE NOT</h3>
+          <div class="compare-row"><span class="compare-no">Full EBR / eQMS replacement</span><span class="compare-yes">DataDives</span></div>
+          <div class="compare-row"><span class="compare-no">Multi-year validation cycle</span><span class="compare-yes">Starts with 1 plant, 1 workflow</span></div>
+          <div class="compare-row"><span class="compare-no">Rips out what staff already know</span><span class="compare-yes">Connects to what you run today</span></div>
+          <div class="compare-row"><span class="compare-no">Large capital line item</span><span class="compare-yes">A named owner from week one</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="wrap">
+      <div class="section-eyebrow">STRAIGHT ANSWERS</div>
+      <h2 class="section-title" style="margin-bottom:36px">Questions you're probably asking</h2>
+      <div class="faq">
+        <div class="faq-item">
+          <div class="faq-q"><span>Does this replace our EBR, eQMS, or MES?</span><span class="chev">+</span></div>
+          <div class="faq-a"><div class="faq-a-inner">No. We connect to what you already run and assemble the evidence for review. We don't replace your platform, and the release decision stays with your QA team — always.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span>We're still on paper and Excel — is that a problem?</span><span class="chev">+</span></div>
+          <div class="faq-a"><div class="faq-a-inner">No — that's exactly who we built this for. If your review still runs through manual logs or spreadsheets, we remove the chasing. We don't add another system for your team to learn.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span>How long does a pilot take?</span><span class="chev">+</span></div>
+          <div class="faq-a"><div class="faq-a-inner">We scope every pilot to one plant and one agreed workflow. That's small enough to prove real results — review-prep time, outstanding-record age — before you commit to anything wider.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span>What does it cost?</span><span class="chev">+</span></div>
+          <div class="faq-a"><div class="faq-a-inner">It depends on your scope — sources, checks, plant complexity. We'll tell you a real number on the call, after we understand your workflow, not before.</div></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q"><span>What happens to our data?</span><span class="chev">+</span></div>
+          <div class="faq-a"><div class="faq-a-inner">We use it only to confirm fit and follow up about a pilot. We never sell or share it, and you can ask us to delete it at any time.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <div class="wrap">
+      <div class="final-cta">
+        <h2>Ready to stop chasing paperwork?</h2>
+        <p>Answer 5 quick questions. We'll tell you honestly, on a free 15-minute call, whether a pilot fits your plant.</p>
+        <button class="btn btn-primary" data-open-modal>Get My Free Batch-Release Review <span class="arrow">→</span></button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-row">
+    <div>© <span id="year"></span> DataDives — a costly workflow, made reliable, with a named owner.</div>
+    <div class="foot-links">
+      <a href="/privacy.html">Privacy</a>
+      <a href="/eu/">Europe site</a>
+    </div>
+  </div>
+</footer>
+
+<div class="mobile-cta">
+  <button class="btn btn-primary" data-open-modal>Get My Free Review <span class="arrow">→</span></button>
+</div>
+
+<!-- ===== Popup modal: qualifier flow ===== -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+    <div class="modal-head">
+      <h2 id="modal-title">Let's see if this fits your plant.</h2>
+      <p>5 quick questions — then we'll tell you honestly if it's a fit.</p>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+    <div class="modal-body">
+
+      <div class="q-step active" id="q-role" data-step="1">
+        <div class="q-label">Step 1 of 5</div>
+        <div class="q-title">What's your role?</div>
+        <div class="opt-grid" data-field="role">
+          <button class="opt" data-value="qa_head"><span class="radio"></span> Quality / QA Head</button>
+          <button class="opt" data-value="plant_head"><span class="radio"></span> Plant Head / Manufacturing Operations</button>
+          <button class="opt" data-value="batch_manager"><span class="radio"></span> Production / Batch Release Manager</button>
+          <button class="opt" data-value="other"><span class="radio"></span> Other</button>
+        </div>
+      </div>
+
+      <div class="q-step" id="q-plants" data-step="2">
+        <div class="q-label">Step 2 of 5</div>
+        <div class="q-title">How many manufacturing plants does your company operate?</div>
+        <div class="opt-grid" data-field="plants">
+          <button class="opt" data-value="1"><span class="radio"></span> 1</button>
+          <button class="opt" data-value="2-5"><span class="radio"></span> 2–5</button>
+          <button class="opt" data-value="6+"><span class="radio"></span> 6+</button>
+        </div>
+      </div>
+
+      <div class="q-step" id="q-process" data-step="3">
+        <div class="q-label">Step 3 of 5</div>
+        <div class="q-title">How do you currently manage batch record review?</div>
+        <div class="opt-grid" data-field="process">
+          <button class="opt" data-value="paper"><span class="radio"></span> Paper / manual logs</button>
+          <button class="opt" data-value="excel"><span class="radio"></span> Excel / spreadsheets</button>
+          <button class="opt" data-value="eqms"><span class="radio"></span> Electronic Batch Record or eQMS already in place</button>
+          <button class="opt" data-value="not_sure"><span class="radio"></span> Not sure</button>
+        </div>
+      </div>
+
+      <div class="q-step" id="q-timeline" data-step="4">
+        <div class="q-label">Step 4 of 5</div>
+        <div class="q-title">How soon are you looking to solve this?</div>
+        <div class="opt-grid" data-field="timeline">
+          <button class="opt" data-value="1month"><span class="radio"></span> Within 1 month</button>
+          <button class="opt" data-value="quarter"><span class="radio"></span> This quarter</button>
+          <button class="opt" data-value="exploring"><span class="radio"></span> Just exploring</button>
+        </div>
+      </div>
+
+      <div class="q-step" id="q-location" data-step="5">
+        <div class="q-label">Step 5 of 5</div>
+        <div class="q-title">Which city is your plant in?</div>
+        <div class="opt-grid" data-field="location">
+          <button class="opt" data-value="Hyderabad"><span class="radio"></span> Hyderabad</button>
+              <button class="opt" data-value="Ahmedabad"><span class="radio"></span> Ahmedabad</button>
+              <button class="opt" data-value="Other"><span class="radio"></span> Other</button>
+        </div>
+      </div>
+
+      <div class="q-step" id="q-contact" data-step="6">
+        <div class="q-label">Last step</div>
+        <div class="q-title">Where should we send the invite?</div>
+        <div class="field-grid">
+          <div class="field full" id="field-name">
+            <label for="f-name">Full name</label>
+            <input id="f-name" type="text" autocomplete="name" placeholder="Your name">
+            <div class="field-error">Please enter your name.</div>
+          </div>
+          <div class="field" id="field-email">
+            <label for="f-email">Work email</label>
+            <input id="f-email" type="email" autocomplete="email" placeholder="you@company.com">
+            <div class="field-error">Please enter a valid work email.</div>
+          </div>
+          <div class="field" id="field-phone">
+            <label for="f-phone">Phone (with country code)</label>
+            <input id="f-phone" type="tel" autocomplete="tel" placeholder="+91 98765 43210">
+            <div class="field-error">Please enter a valid phone number.</div>
+          </div>
+          <div class="field full" id="field-company">
+            <label for="f-company">Company</label>
+            <input id="f-company" type="text" autocomplete="organization" placeholder="Company name">
+            <div class="field-error">Please enter your company name.</div>
+          </div>
+        </div>
+        <div class="consent-line">By submitting, you agree DataDives can contact you about this pilot review. See our <a href="/privacy.html">privacy note</a>.</div>
+      </div>
+
+      <div class="q-step" id="q-result" data-step="7"></div>
+
+      <div class="q-nav" id="q-nav-controls">
+        <button class="btn-back" id="btn-back">&larr; back</button>
+        <button class="btn-next" id="btn-submit" style="display:none">Book my call</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="consent-banner" id="consent-banner" style="position:fixed;left:16px;right:16px;bottom:16px;z-index:60;background:var(--navy);color:#fff;border-radius:14px;padding:18px 20px;box-shadow:var(--shadow-lg);display:none;gap:16px;align-items:center;flex-wrap:wrap;max-width:1120px;margin:0 auto">
+  <div style="flex:1 1 320px;font-size:13.5px;line-height:1.5;color:#B9C6DC">We use cookies and the Meta Pixel to measure ad performance. We won't fire tracking pixels until you accept. See our <a href="/privacy.html" style="color:#fff;text-decoration:underline">privacy note</a>.</div>
+  <div style="display:flex;gap:10px;flex:none">
+    <button id="consent-reject" style="padding:10px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.25);background:transparent;color:#fff;font-weight:600;font-size:13.5px">Reject</button>
+    <button id="consent-accept" style="padding:10px 16px;border-radius:8px;border:1px solid #fff;background:#fff;color:var(--navy);font-weight:600;font-size:13.5px">Accept</button>
+  </div>
+</div>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* ---------- Scroll reveal (cosmetic only; opacity never touched) ---------- */
+var revealEls = document.querySelectorAll(".reveal");
+if ("IntersectionObserver" in window) {
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.01, rootMargin: "0px 0px -10% 0px" });
+  revealEls.forEach(function (el) { io.observe(el); });
+} else {
+  revealEls.forEach(function (el) { el.classList.add("in"); });
+}
+setTimeout(function () { revealEls.forEach(function (el) { el.classList.add("in"); }); }, 1800);
+
+/* ---------- Interactive hero panel ---------- */
+function updatePanelBadge() {
+  var rows = document.querySelectorAll("#panel-rows .prow");
+  var cleared = 0;
+  rows.forEach(function (r) { if (r.getAttribute("data-state") === "ok") cleared++; });
+  var badge = document.getElementById("panel-badge");
+  badge.textContent = cleared + " OF " + rows.length + " CLEARED";
+}
+document.querySelectorAll("#panel-rows .prow").forEach(function (row) {
+  row.addEventListener("click", function () {
+    if (row.getAttribute("data-state") === "ok") return;
+    row.setAttribute("data-state", "ok");
+    row.querySelector(".pdot").className = "pdot ok";
+    row.querySelector(".pstatus").className = "pstatus ok";
+    row.querySelector(".pstatus").textContent = "CLEARED";
+    row.querySelector(".pmeta").textContent = "Cleared just now";
+    updatePanelBadge();
+  });
+});
+
+/* ---------- FAQ accordion ---------- */
+document.querySelectorAll(".faq-item").forEach(function (item) {
+  item.querySelector(".faq-q").addEventListener("click", function () {
+    var wasOpen = item.classList.contains("open");
+    document.querySelectorAll(".faq-item").forEach(function (i) { i.classList.remove("open"); });
+    if (!wasOpen) item.classList.add("open");
+  });
+});
+
+/* ---------- Popup modal open/close ---------- */
+var overlay = document.getElementById("modal-overlay");
+function openModal() {
+  overlay.classList.add("show");
+  document.body.style.overflow = "hidden";
+}
+function closeModal() {
+  overlay.classList.remove("show");
+  document.body.style.overflow = "";
+}
+document.querySelectorAll("[data-open-modal]").forEach(function (el) {
+  el.addEventListener("click", openModal);
+});
+document.getElementById("modal-close").addEventListener("click", closeModal);
+overlay.addEventListener("click", function (e) { if (e.target === overlay) closeModal(); });
+document.addEventListener("keydown", function (e) { if (e.key === "Escape" && overlay.classList.contains("show")) closeModal(); });
+
+/* ---------- UTM capture ---------- */
+function getParam(name) {
+  var m = new URLSearchParams(window.location.search).get(name);
+  return m ? m : "";
+}
+var UTM = {
+  utm_source: getParam("utm_source"),
+  utm_medium: getParam("utm_medium"),
+  utm_campaign: getParam("utm_campaign"),
+  utm_content: getParam("utm_content"),
+  fbclid: getParam("fbclid")
+};
+
+/* ---------- Consent banner (GDPR) ---------- */
+var CONSENT_KEY = "dd_consent";
+function initConsent() {
+  if (!window.DD_CONFIG.gdprRequired) { loadPixel(); return; }
+  var stored = null;
+  try { stored = localStorage.getItem(CONSENT_KEY); } catch (e) {}
+  if (stored === "accepted") { loadPixel(); return; }
+  if (stored === "rejected") { return; }
+  document.getElementById("consent-banner").style.display = "flex";
+}
+document.getElementById("consent-accept").addEventListener("click", function () {
+  try { localStorage.setItem(CONSENT_KEY, "accepted"); } catch (e) {}
+  document.getElementById("consent-banner").style.display = "none";
+  loadPixel();
+});
+document.getElementById("consent-reject").addEventListener("click", function () {
+  try { localStorage.setItem(CONSENT_KEY, "rejected"); } catch (e) {}
+  document.getElementById("consent-banner").style.display = "none";
+});
+
+var pixelLoaded = false;
+function loadPixel() {
+  if (pixelLoaded || !window.DD_CONFIG.metaPixelId || window.DD_CONFIG.metaPixelId.indexOf("REPLACE") === 0) return;
+  pixelLoaded = true;
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', window.DD_CONFIG.metaPixelId);
+  fbq('track', 'PageView');
+}
+initConsent();
+
+/* ---------- Qualifier wizard (exact 5-question spec + contact) ---------- */
+var STEPS = ["q-role","q-plants","q-process","q-timeline","q-location","q-contact","q-result"];
+var answers = { role:null, plants:null, process:null, timeline:null, location:null };
+var current = 0;
+var CONTACT_IDX = STEPS.indexOf("q-contact");
+var RESULT_IDX = STEPS.indexOf("q-result");
+
+var progressFill = document.getElementById("progress-fill");
+var backBtn = document.getElementById("btn-back");
+var submitBtn = document.getElementById("btn-submit");
+var navControls = document.getElementById("q-nav-controls");
+
+function showStep(idx) {
+  STEPS.forEach(function (id, i) {
+    document.getElementById(id).classList.toggle("active", i === idx);
+  });
+  var pct = Math.min(idx, CONTACT_IDX) / CONTACT_IDX * 100;
+  progressFill.style.width = pct + "%";
+  backBtn.disabled = idx === 0;
+  submitBtn.style.display = idx === CONTACT_IDX ? "inline-block" : "none";
+  navControls.style.display = idx === RESULT_IDX ? "none" : "flex";
+  current = idx;
+}
+
+document.querySelectorAll(".opt-grid[data-field]").forEach(function (grid) {
+  var field = grid.getAttribute("data-field");
+  grid.querySelectorAll(".opt").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      grid.querySelectorAll(".opt").forEach(function (b) { b.classList.remove("selected"); });
+      btn.classList.add("selected");
+      answers[field] = btn.getAttribute("data-value");
+      setTimeout(function () {
+        if (current < CONTACT_IDX) showStep(current + 1);
+      }, 220);
+    });
+  });
+});
+
+backBtn.addEventListener("click", function () {
+  if (current > 0) showStep(current - 1);
+});
+
+function validateContact() {
+  var ok = true;
+  var name = document.getElementById("f-name");
+  var email = document.getElementById("f-email");
+  var phone = document.getElementById("f-phone");
+  var company = document.getElementById("f-company");
+
+  function setInvalid(id, invalid) {
+    document.getElementById(id).classList.toggle("invalid", invalid);
+  }
+
+  if (!name.value.trim()) { setInvalid("field-name", true); ok = false; } else setInvalid("field-name", false);
+  var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
+  if (!emailOk) { setInvalid("field-email", true); ok = false; } else setInvalid("field-email", false);
+  var phoneOk = phone.value.replace(/[^0-9]/g, "").length >= 8;
+  if (!phoneOk) { setInvalid("field-phone", true); ok = false; } else setInvalid("field-phone", false);
+  if (!company.value.trim()) { setInvalid("field-company", true); ok = false; } else setInvalid("field-company", false);
+
+  return ok;
+}
+
+function isQualified() {
+  var roleOk = ["qa_head", "plant_head", "batch_manager"].indexOf(answers.role) !== -1;
+  var processOk = ["paper", "excel", "not_sure"].indexOf(answers.process) !== -1;
+  var timelineOk = answers.timeline !== "exploring";
+  return roleOk && processOk && timelineOk;
+}
+
+submitBtn.addEventListener("click", function () {
+  if (!validateContact()) return;
+
+  var qualified = isQualified();
+  var payload = {
+    role: answers.role,
+    plants: answers.plants,
+    process: answers.process,
+    timeline: answers.timeline,
+    location: answers.location,
+    name: document.getElementById("f-name").value.trim(),
+    email: document.getElementById("f-email").value.trim(),
+    phone: document.getElementById("f-phone").value.trim(),
+    company: document.getElementById("f-company").value.trim(),
+    market: window.DD_CONFIG.market,
+    qualified: qualified,
+    utm: UTM,
+    submitted_at: new Date().toISOString()
+  };
+
+  if (window.DD_CONFIG.submitEndpoint && window.DD_CONFIG.submitEndpoint.indexOf("REPLACE") !== 0) {
+    fetch(window.DD_CONFIG.submitEndpoint, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    }).catch(function () {});
+  }
+
+  if (pixelLoaded && typeof fbq === "function") {
+    fbq('track', 'Lead', {
+      content_name: qualified ? 'qualified' : 'unqualified',
+      content_category: 'batch_review_pilot'
+    });
+  }
+
+  var resultEl = document.getElementById("q-result");
+  if (qualified) {
+    resultEl.innerHTML =
+      '<div class="result-box">' +
+        '<div class="result-icon ok"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M20 6 9 17l-5-5"/></svg></div>' +
+        '<div class="result-title">You\'re in.</div>' +
+        '<div class="result-desc">A named DataDives owner will reach out within 24–48 hours to book your call and walk through whether a one-plant pilot fits.</div>' +
+        '<a class="result-cta" href="' + window.DD_CONFIG.calendarUrl + '" target="_blank" rel="noopener">Pick a time now →</a>' +
+      '</div>';
+  } else {
+    resultEl.innerHTML =
+      '<div class="result-box">' +
+        '<div class="result-icon no"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="24" height="24"><path d="M12 8v4M12 16h.01"/><circle cx="12" cy="12" r="9"/></svg></div>' +
+        '<div class="result-title">Thanks for your interest.</div>' +
+        '<div class="result-desc">We\'re currently focused on teams still on paper, spreadsheets, or unsure of their process, with real urgency to fix it. We\'ve saved your details and will reach out if that changes.</div>' +
+      '</div>';
+  }
+  showStep(RESULT_IDX);
+});
+</script>
+</body>
+</html>
